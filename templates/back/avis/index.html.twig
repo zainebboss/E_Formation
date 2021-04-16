@@ -1,0 +1,89 @@
+{% extends 'back/block/layout.html.twig' %}
+
+
+{% block page %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-lg-6">
+                        <h1>Liste Avis </h1>
+                    </div>
+                    <div class="offset-lg-4 col-lg-2 text-right">
+
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </section>
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="row">
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Filtre</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <form class="row" id="myform" action="{{ path('avis_index') }}" method="get">
+                                <div class="col-lg-6">
+                                    <input class="form-control" type="text" placeholder="rechercher"  name="search" value="{{ search }}">
+                                </div>
+                                <div class="offset-lg-5 col-lg-1">
+                                    <button type="button" id="search"  class="btn btn-block btn-outline-success " style="display: inline">
+                                        <i class="nav-icon fas fa-search btn-outline-success"></i>
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+                        <div class="card-body">
+                            <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                <tr class="text-center">
+                                    <th>Apprenant</th>
+                                    <th>Formateur</th>
+                                    <th>Note</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+
+                                {% for a in avis %}
+                                    <tr class="text-center">
+                                        <td>{{ a.apprenant.nom }} {{ a.apprenant.prenom }}</td>
+                                        <td>{{ a.formateur.nom }} {{ a.formateur.prenom }}</td>
+                                        <td>
+                                            {% if a.note == 1 %}
+                                                <img src="{{ asset('images/triste.png') }}" alt="..."
+                                                     style="width: 30px;">
+                                            {% elseif a.note == 2 %}
+                                                <img src="{{ asset('images/smile.png') }}" alt="..."
+                                                     style="width: 30px;">
+                                            {% elseif a.note == 3 %}
+                                                <img src="{{ asset('images/happy.png') }}" alt="..."
+                                                     style="width: 30px;">
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <!-- /.card-body -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}

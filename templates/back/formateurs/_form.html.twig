@@ -1,0 +1,112 @@
+{{ form_start(form, {'attr': {'class': 'row'}}) }}
+    {% if errors|length > 0 %}
+        <div class="offset-lg-2 col-lg-6" style="padding-top: 20px;">
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+                {% for error in errors %}
+                    <h6 class="text-white">{{ error }}</h6>
+                {% endfor %}
+            </div>
+
+        </div>
+        <div class="col-lg-4">
+
+        </div>
+    {% endif %}
+<div class="offset-lg-2 col-lg-3" style="padding-top: 20px;">
+    <label>Nom<span style="color: #ed1a3b">*</span></label>
+</div>
+<div class="col-lg-3" style="padding-top: 20px;">
+    <label>Prénom<span style="color: #ed1a3b">*</span></label>
+</div>
+<div class="offset-lg-2 col-lg-3">
+    {{ form_widget(form.nom ,{'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.nom, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+<div class="col-lg-3">
+    {{ form_widget(form.prenom ,{'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.prenom, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+
+
+<div class="offset-lg-2 col-lg-10" style="padding-top: 20px;">
+    <label>Email<span style="color: #ed1a3b">*</span></label>
+</div>
+<div class="offset-lg-2 col-lg-6">
+    {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.email, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+
+<div class="offset-lg-2 col-lg-10" style="padding-top: 20px;">
+    <label>Mot de passe
+        {% if new is defined and new==true %}
+        <span style="color: #ed1a3b">*</span>
+        {% endif %}
+    </label>
+</div>
+<div class="offset-lg-2 col-lg-6">
+    {{ form_widget(form.plainPassword.first, {'attr': {'class': 'form-control'}}) }}
+    <i class="nav-icon fas fa-info-circle	" aria-hidden="true" style="color: #F01235;display: inline"></i>
+    <p style="display: inline;font-size: 12px;">Votre mot de passe doit comporter minimum 8
+        caractères et contenir une majuscule et un chiffre</p>
+    {{ form_errors(form.plainPassword.first, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+
+<div class="offset-lg-2 col-lg-10" style="padding-top: 20px;">
+    <label>Confirmer mot de passe
+        {% if new is defined and new==true %}
+            <span style="color: #ed1a3b">*</span>
+        {% endif %}</label>
+</div>
+<div class="offset-lg-2 col-lg-6">
+    {{ form_widget(form.plainPassword.second, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.plainPassword.second, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+<div class="offset-lg-2 col-lg-10" style="padding-top: 20px;">
+    <label>Téléphone<span style="color: #ed1a3b">*</span></label>
+</div>
+<div class="offset-lg-2 col-lg-6">
+    {{ form_widget(form.telephone, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.telephone, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+<div class="offset-lg-2 col-lg-10" style="padding-top: 20px;">
+    <label>Adresse<span style="color: #ed1a3b">*</span></label>
+</div>
+<div class="offset-lg-2 col-lg-6">
+    {{ form_widget(form.adresse, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.adresse, {'attr': {'class': 'alert alert-danger alert-dismissible'}}) }}
+
+</div>
+{# <div class="offset-lg-2 col-lg-6" >
+    <div class="custom-control custom-checkbox">
+        {{ form_widget(form.enable, {'attr': {'class': 'form-control'}}) }}
+        <label for="user_enable" class="custom-control-label">Est active?</label>
+    </div>
+</div> #}
+
+<div class=" col-lg-5 text-left" style="padding-top: 20px;">
+    <a href="{{ path('formateurs_index') }}" type="button" style="margin-top: 3px;"
+       class="btn btn-block btn-default btn-flat ">
+        <i class="icon md-arrow-left" aria-hidden="true"></i>
+        Annuler
+    </a>
+
+
+</div>
+<div class="offset-lg-2 col-lg-5 text-right" style="padding-top: 20px;">
+
+    <button style="margin-top: 3px;"  class="btn btn-block btn-outline-info ">
+        Enregister
+    </button>
+
+</div>
+{{ form_end(form) }}
+

@@ -1,0 +1,52 @@
+{% extends 'front/block/layout.html.twig' %}
+
+{% block page %}
+
+
+    <div class="all-title-box">
+        <div class="container text-center">
+            <h1>Inscription <span class="m_1"></span></h1>
+        </div>
+    </div>
+
+    <div id="overviews" class="section lb">
+        <div class="container">
+            <div class="section-title row text-center">
+                <div class="col-md-8 offset-md-2">
+                    <h3>INTÉRESSÉ PAR L'UN DE NOS PROGRAMMES ?</h3>
+                    <p class="lead">
+                        Veuillez saisir vos coordonnées et l'un de nos représentant vous contactera dans les meilleurs délais !
+                    </p>
+                </div>
+            </div><!-- end title -->
+
+                {{ form_start(form, {'attr': {'class': 'row'}}) }}
+
+                    <div class="offset-lg-2 col-lg-8">
+                        <label>Message</label>
+                    </div>
+                    <div class="offset-lg-2 col-lg-8">
+                        {{ form_widget(form.message ,{'attr': {'class': 'form-control'}}) }}
+                    </div>
+            <br><br>
+                    <div class="offset-lg-2 col-lg-8">
+                        <label>Formation<span style="color: #ed1a3b">*</span></label>
+                    </div>
+                    <div class="offset-lg-2 col-lg-8">
+                        {{ form_widget(form.formation ,{'attr': {'class': 'form-control'}}) }}
+                    </div>
+
+
+                <div class="offset-lg-4 col-lg-4 text-right" style="padding-top: 20px;">
+
+                    <button style="margin-top: 3px;"  class="btn btn-block btn-outline-info ">
+                        Enregistrer
+                    </button>
+                </div>
+                {{ form_end(form) }}
+
+        </div><!-- end container -->
+    </div><!-- end section -->
+
+{% endblock %}
+
