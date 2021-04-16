@@ -1,0 +1,25 @@
+
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+
+<div class="col-lg-6 col-md-6 col-sm-6">
+
+    {{ form_label(form.sujet,"sujet") }}
+
+    {{ form_widget(form.sujet,{'attr':{'placeholder' : 'sujet'}}) }}
+</div>
+
+</br>
+
+  {{ form_label(form.probleme,"probleme") }}
+
+ {{ form_widget(form.probleme,{'attr':{'placeholder' : 'probleme'}}) }}
+</br>
+  {{ form_label(form.mail,"votre Email") }}
+
+ {{ form_widget(form.mail,{'attr':{'placeholder' : 'Email'}}) }}
+
+{{ form_errors(form.mail) }}
+</br>
+    <button class="btn">{{ button_label|default('Save') }}</button>
+
+{{ form_end(form) }}

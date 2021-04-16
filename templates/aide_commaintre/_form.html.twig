@@ -1,0 +1,12 @@
+{{ form_start(form,{'attr':{'novalidate':'novalidate'}}) }}
+
+    {{ form_label(form.commaintre,"commaintre") }}
+ {{ form_widget(form.commaintre,{'attr':{'placeholder' : 'commaintre'}}) }}
+   {{ form_label(form.idSujet,"référence sujet") }}
+ {{ form_widget(form.idSujet,{'attr':{'placeholder' : 'référence'}}) }}
+
+</br></br>
+
+  </br>
+<button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

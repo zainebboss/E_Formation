@@ -1,0 +1,33 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Aidecom{% endblock %}
+
+{% block content %}
+    <h1>Aidecom</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ aidecom.id }}</td>
+            </tr>
+            <tr>
+                <th>Commaintre</th>
+                <td>{{ aidecom.commaintre }}</td>
+            </tr>
+            <tr>
+                <th>IdSujet</th>
+                <td>{{ aidecom.idSujet }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('aide_commaintre_index') }}">back to list</a>
+
+    <a href="{{ path('aide_commaintre_edit', {'id': aidecom.id}) }}">edit</a>
+
+    {{ include('aide_commaintre/_delete_form.html.twig') }}
+{% endblock %}
+{% block footer %}
+
+{% endblock %}
