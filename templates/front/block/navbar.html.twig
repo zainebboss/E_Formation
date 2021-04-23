@@ -19,11 +19,16 @@
 
                     {% if app.user %}
                         <li class="nav-item">  <a class="nav-link" href="{{ path('inscription') }}" ><span>Inscription</span></a></li>
+                        <li class="nav-item">  <a class="nav-link" href="{{ path('list_formateurs') }}" ><span>Formateurs</span></a></li>
+                        <li class="nav-item">  <a class="nav-link" href="{{ path('avis_show') }}" ><span>Avis</span></a></li>
+
+
 
                         <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="dropdown-a" data-toggle="dropdown">{{ app.user.nom|upper }} {{ app.user.prenom|upper }} </a>
                         <div class="dropdown-menu" aria-labelledby="dropdown-a">
-                            <a class="dropdown-item" href="">Profile </a>
+                            <a class="dropdown-item" href="{{ 'editProfil' }}">Profil </a>
+                            <a class="dropdown-item" href="{{ 'updatepassword' }}">Modifier mot de passe</a>
                             <a class="dropdown-item" href="{{ path('app_logout') }}">Déconnexion</a>
                         </div>
                     </li>

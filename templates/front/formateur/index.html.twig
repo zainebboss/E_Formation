@@ -1,0 +1,26 @@
+{% extends 'front/block/layout.html.twig' %}
+
+{% block page %}
+
+
+    <div class="modal-body customer-box">
+        <div class="tab-content">
+            <div class="row">
+                {% for formateur in formateurs %}
+                <div class="col-lg-3 col-md-4 col-xs-12">
+                    <div class="form-group text-center">
+                        <div class="col-sm-12">
+                           <a href="{{ path('avis_new',{'formateurId':formateur.id}) }}">
+                               <img class="rounded-circle"  style="    width: 160px;" src="{{ asset('images/default-user.png') }}">
+                           </a>
+                        </div>
+                        <div class="col-sm-12">
+                            <h3>{{ formateur.nom }} {{ formateur.prenom }}</h3>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'front/block/layout.html.twig' %}
+
+{% block page %}
+    <div class="modal-body customer-box">
+        <div class="tab-content">
+            <div class="row">
+                {% for a in avis %}
+                    <div class="col-md-4 col-sm-6">
+                        <div class="pricingTable">
+                            <div class="pricingTable-header">
+                            <span class="heading">
+                                <h3 style="font-size: 23px;">{{ a.formateur.nom }} {{ a.formateur.prenom }}</h3>
+                            </span>
+                                {% if a.note == 1 %}
+                                    <img src="{{ asset('images/triste.png') }}" alt="..."
+                                         style="margin: 10px;width: 30px;">
+                                {% elseif a.note == 2 %}
+                                    <img src="{{ asset('images/smile.png') }}" alt="..."
+                                         style="margin: 10px;width: 30px;">
+                                {% elseif a.note == 3 %}
+                                    <img src="{{ asset('images/happy.png') }}" alt="..."
+                                         style="margin: 10px;width: 30px;">
+                                {% endif %}
+                                <span class="price-value">
+                                    <span>{{ a.commentaire }}</span>
+                                </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

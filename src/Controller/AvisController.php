@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Avis;
+use App\Entity\User;
 use App\Form\AvisType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,37 +29,71 @@ class AvisController extends AbstractController
             'search' => '',
         ]);
     }
-
+    //affichage formateurs  front
     /**
-     * @Route("/new", name="avis_new", methods={"GET","POST"})
+     * @Route("/formateurs", name="list_formateurs", methods={"GET"})
      */
-    public function new(Request $request): Response
+    public function listFormateurs(): Response
     {
-        $avi = new Avis();
-        $form = $this->createForm(AvisType::class, $avi);
-        $form->handleRequest($request);
+        $formateurs = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findUsersByRole('','ROLE_FORMATEUR');
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($avi);
-            $entityManager->flush();
-
-            return $this->redirectToRoute('avis_index');
-        }
-
-        return $this->render('avis/new.html.twig', [
-            'avi' => $avi,
-            'form' => $form->createView(),
+        return $this->render('front/formateur/index.html.twig', [
+            'formateurs' => $formateurs,
         ]);
     }
 
+
     /**
-     * @Route("/{id}", name="avis_show", methods={"GET"})
+     * @Route("/new/{formateurId}", name="avis_new", methods={"GET","POST"})
      */
-    public function show(Avis $avi): Response
+    public function new($formateurId,Request $request): Response
     {
-        return $this->render('avis/show.html.twig', [
-            'avi' => $avi,
+
+       $formateur = $this->getDoctrine()
+           ->getRepository(User::class)
+           ->find($formateurId);
+       if($formateur){
+           if ($request->isMethod('post')) {
+               $note=$request->get('note','');
+               $commentaire=$request->get('commentaire','');
+               if($note==1 ||$note==2 || $note==3 ){
+                   $avis=new Avis();
+                   $avis->setApprenant($this->getUser());
+                   $avis->setFormateur($formateur);
+                   $avis->setNote($note);
+                   $avis->setCommentaire($commentaire);
+                   $this->getDoctrine()->getManager()->persist($avis);
+                   $this->getDoctrine()->getManager()->flush();
+                   return $this->redirectToRoute('avis_show');
+               }
+               else{
+                   return $this->render('front/avis/new.html.twig', [
+                       'formateur' => $formateur,
+                   ]);
+               }
+           }
+           return $this->render('front/avis/new.html.twig', [
+               'formateur' => $formateur,
+           ]);
+       }
+       else{
+           $this->redirectToRoute('list_formateurs');
+       }
+
+    }
+
+    /**
+     * @Route("/show", name="avis_show", methods={"GET"})
+     */
+    public function show(): Response
+    {
+        $avis = $this->getDoctrine()
+            ->getRepository(Avis::class)
+            ->findAvis('',$this->getUser()->getId());
+        return $this->render('front/avis/show.html.twig', [
+            'avis' => $avis,
         ]);
     }
 

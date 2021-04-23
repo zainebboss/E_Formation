@@ -41,6 +41,11 @@ class Avis
     private $formateur;
 
     /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $commentaire;
+
+    /**
      * @return int
      */
     public function getNote(): int
@@ -76,6 +81,18 @@ class Avis
     public function setFormateur(?User $formateur): self
     {
         $this->formateur = $formateur;
+
+        return $this;
+    }
+
+    public function getCommentaire(): ?string
+    {
+        return $this->commentaire;
+    }
+
+    public function setCommentaire(?string $commentaire): self
+    {
+        $this->commentaire = $commentaire;
 
         return $this;
     }

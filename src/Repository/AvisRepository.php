@@ -24,7 +24,7 @@ class AvisRepository extends ServiceEntityRepository
 
 
 
-    public function findAvis($note=null)
+    public function findAvis($note=null,$apprenant=null)
     {
 
         $query = $this->createQueryBuilder('a')
@@ -40,6 +40,10 @@ class AvisRepository extends ServiceEntityRepository
                   $query ->andWhere('a.note = :note')
                       ->setParameter('note', $note);
               }
+        if($apprenant!= ''){
+            $query ->andWhere('ap.id = :apprenant')
+                ->setParameter('apprenant', $apprenant);
+        }
         return $query->getQuery()->getResult();
 
     }
