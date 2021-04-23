@@ -1,0 +1,39 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Aide index{% endblock %}
+
+{% block content %}
+    <h1>Liste des problemes</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sujet</th>
+                <th>Probleme</th>
+                <th>Mail</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for aide in aides %}
+            <tr>
+                <td>{{ aide.id }}</td>
+                <td>{{ aide.sujet }}</td>
+                <td>{{ aide.probleme }}</td>
+                <td>{{ aide.mail }}</td>
+                <td>
+                    <a href="{{ path('form_show', {'id': aide.id}) }}">show</a>
+                    <a href="{{ path('form_edit', {'id': aide.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

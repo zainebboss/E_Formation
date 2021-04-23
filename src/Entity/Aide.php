@@ -3,25 +3,23 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use App\Repository\AideRepository;
 
 /**
- * Aide
- *
  * @ORM\Table(name="aide")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=AideRepository::class)
  * @UniqueEntity(fields={"mail"},
  * message="le champs il faut etre unique ")
  */
 class Aide
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
@@ -85,6 +83,8 @@ class Aide
         return $this->probleme;
     }
 
+
+
     /**
      * @param string $probleme
      */
@@ -119,5 +119,9 @@ class Aide
      */
     private $mail;
 
+    public function __construct()
+    {
+        $this->date = new \DateTime('now');
+    }
 
 }

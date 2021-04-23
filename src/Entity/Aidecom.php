@@ -4,20 +4,17 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use App\Repository\AideComRepository;
 /**
- * Aidecom
- *
+ * @ORM\Entity(repositoryClass=AideComRepository::class)
  * @ORM\Table(name="aidecom", indexes={@ORM\Index(name="id_sujet", columns={"id_sujet"})})
- * @ORM\Entity
  */
 class Aidecom
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 

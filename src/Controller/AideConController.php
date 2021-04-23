@@ -3,11 +3,13 @@
 namespace App\Controller;
 
 use App\Entity\Aide;
-use App\Form\Aide1Type;
+use App\Entity\Aidecom;
 use App\Form\AideFormType;
+use App\Repository\AideRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bridge\Doctrine;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,14 +22,22 @@ class AideConController extends AbstractController
      */
     public function index(): Response
     {
+
+
         $aides = $this->getDoctrine()
             ->getRepository(Aide::class)
             ->findAll();
 
+        $aidecom = $this->getDoctrine()
+            ->getRepository(Aidecom::class)
+            ->findAll();
         return $this->render('aide_con/index.html.twig', [
             'aides' => $aides,
+            'aidecom'=>$aidecom,
+
         ]);
     }
+
 
 
     /**
@@ -96,4 +106,44 @@ class AideConController extends AbstractController
 
         return $this->redirectToRoute('aide_con_index');
     }
+    public function createAction(Request $request)
+    {
+
+        $form = $this->createFormBuilder(new Article());
+    }
+
+
+    /**
+     * @param Request $request
+     * @return Response
+     * @Route ("/produitajaxxx",name="searchrdvzz")
+     */
+    public function searchrdvvv(Request $request)
+    {
+        $repository = $this->getDoctrine()->getRepository(Aide::class);
+        $requestString=$request->get('searchValue');
+        $rdv = $repository->findrdvByname($requestString);
+        return $this->render('aide_con/showSujet.html.twig' ,[
+            "listsujet"=>$rdv,
+        ]);
+    }
+
+    /**
+     * @Route ("aide_con/recherche",name="recherche")
+     */
+    public function recherche  (AideRepository $repository,Request $request){
+
+        $data=$request->get('search');
+
+     $aide=$repository->findBy(['sujet'=>$data]);
+        $aides =$aide;
+        $aidecom = $this->getDoctrine()
+            ->getRepository(Aidecom::class)
+            ->findAll();
+        return $this->render('aide_con/index.html.twig', [
+         'aides' => $aides,
+            'aidecom'=>$aidecom,
+     ]);
+    }
+
 }

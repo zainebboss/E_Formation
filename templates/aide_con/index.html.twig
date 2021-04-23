@@ -4,28 +4,55 @@
 
 {% block content %}
 
-    <h1>Aide Apprenant</h1>
+    <h1 class="h">Espace Aide</h1>
+    <form  method="post" action="{{ path('recherche') }}" >
 
+        <input type="text" name="search" class="in"> <input type="submit" value="recherche" class="re">
+
+    </form>
+    </br>
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+
                 <th>Sujet</th>
                 <th>Probleme</th>
                 <th>Mail</th>
-                <th>actions</th>
+                <th>commaintre</th>
+                <th>avis</th>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
+
         {% for aide in aides %}
            <tr>
-                <td>{{ aide.id }}</td>
+
                 <td>{{ aide.sujet }}</td>
                 <td>{{ aide.probleme }}</td>
                 <td>{{ aide.mail }}</td>
+
+             <td>  {% for aidecoms in aidecom %}
+               {% if aidecoms.idSujet == aide.id %}
+                   <p>{{ aidecoms.commaintre}}</p>
+               {% endif %}
+               {% endfor %} </td>
+               <td>
+                   <button id="likedbtn" >
+                       <i class="fa fa-thumbs-up"></i>
+                   </button>
+                   <input type="number" id="input1" value="0" name=""  class="TH" >
+                   <button id="dislikedbtn">
+                       <i class="fa fa-thumbs-down"></i>
+                   </button>
+                   <input type="number" id="input2" value="0" name="" class="TH" >
+
+
+               </td>
                 <td>
-                    <a href="{{ path('aide_con_show', {'id': aide.id}) }}">show</a>
-                    <a href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
+                    <a  class="btn" href="{{ path('aide_con_show', {'id': aide.id}) }} ">show</a>
+                    <a class="btn" href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
+
                 </td>
             </tr>
         {% else %}
@@ -94,4 +121,29 @@
             </div><!-- end row -->
         </div><!-- end container -->
     </footer><!-- end footer -->
+{% endblock %}
+{% block javascript %}
+
+<script type="text/javascript">
+
+let likedbtn =document.querySelector('#likedbtn');
+let dislikedbtn =document.querySelector('#dislikedbtn');
+let input1 =document.querySelector('#input1');
+let input2 =document.querySelector('#input2');
+
+likedbtn.addEventListener('click',()=>{
+input1.value =parseInt(input1.value)+1;
+input1.style.color ="#0000FF"
+
+
+})
+dislikedbtn.addEventListener('click',()=>{
+input2.value =parseInt(input2.value)+1;
+input2.style.color ="#008000"
+
+
+})
+
+</script>
+
 {% endblock %}

@@ -4,14 +4,16 @@
 
 {% block content %}
     <h1>Aide commaintre </h1>
-
+    <input class="form-control" type="search" id="search" placeholder="Search Products" >
     <table class="table">
         <thead>
         <tr>
             <th>Id</th>
             <th>Commaintre</th>
             <th>IdSujet</th>
+            <th>date de reception </th>
             <th>actions</th>
+
         </tr>
         </thead>
         <tbody>
@@ -21,9 +23,22 @@
                 <td>{{ aidecom.commaintre }}</td>
                 <td>{{ aidecom.idSujet }}</td>
                 <td>
+                    <script>
+
+                        var d = new Date();
+                        var date = d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+                        var hours = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                        var fullDate = date+' '+hours;
+
+                        console.log(fullDate);
+                    </script>
+
+                </td>
+                <td>
                     <a href="{{ path('aide_commaintre_show', {'id': aidecom.id}) }}">show</a>
                     <a href="{{ path('aide_commaintre_edit', {'id': aidecom.id}) }}">edit</a>
                 </td>
+
             </tr>
         {% else %}
             <tr>
@@ -35,4 +50,25 @@
 
     <a href="{{ path('aide_commaintre_new') }}">Create new</a>
 
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+<script>
+    function loadTable() {
+
+        var search=$("#search").val();
+        var url = '{{ path('apprenant_table') }}'; //get submit url [replace url here if desired]
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: {'search':search}, // serializes form input
+            success: function(data){
+                $("#apprenants").html(data.html);
+            }
+        });
+    }
+    $( document ).ready(function() {
+        loadTable();
+    })
+</script>
 {% endblock %}
