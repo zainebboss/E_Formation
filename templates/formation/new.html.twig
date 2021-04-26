@@ -1,0 +1,41 @@
+{% extends 'admin_template/base.html.twig' %}
+
+{% block title %}New Formation{% endblock %}
+
+{% block body %}
+    <h1>Create new Formation</h1>
+
+{{ form_start(form) }}
+    <table>
+    <tr>
+        <td>
+        {{form_label(form.titre)}}
+        </td>
+        <td>
+        {{form_widget(form.titre)}}
+        </td>
+    </tr>
+      <tr>
+        <td>
+        {{form_label(form.description)}}
+        </td>
+        <td>
+        {{form_widget(form.description)}}
+        </td>
+    </tr>
+     <tr>
+        <td>
+        {{form_label(form.prix)}}
+        </td>
+        <td>
+        {{form_widget(form.prix)}}
+        </td>
+
+    </tr>
+      </table>
+    <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
+
+    {{ form_end(form) }}
+
+    <a href="{{ path('formation_index') }}">back to list</a>
+{% endblock %}

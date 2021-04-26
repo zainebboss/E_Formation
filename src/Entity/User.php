@@ -74,7 +74,6 @@ class User implements  UserInterface
     /**
      * @var array
      * @ORM\Column(name="roles", type="array", nullable=false)
-
      */
     protected $roles;
     /**
@@ -122,13 +121,7 @@ class User implements  UserInterface
     /**
      * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="apprenant", orphanRemoval=true)
      */
-    private $avisApprenant;
-
-    /**
-     * @ORM\OneToMany(targetEntity=Avis::class, mappedBy="formateur", orphanRemoval=true)
-     */
-    private $avisFormateur;
-
+    
     /**
      * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="utilisateur")
      */

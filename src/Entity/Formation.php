@@ -2,135 +2,134 @@
 
 namespace App\Entity;
 
+use App\Repository\FormationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Formation
- *
- * @ORM\Table(name="formation", uniqueConstraints={@ORM\UniqueConstraint(name="titre", columns={"titre"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass=FormationRepository::class)
  */
 class Formation
 {
     /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
+     * @ORM\GeneratedValue
+     * @ORM\Column(type="integer")
      */
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="titre", type="string", length=11, nullable=false)
-     */
-    private $titre;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="prix", type="string", length=255, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $prix;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="description", type="string", length=1024, nullable=false)
+     * @ORM\Column(type="string", length=255)
      */
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity=Inscription::class, mappedBy="formation")
+     * @ORM\Column(type="string", length=255)
      */
-    private $inscriptions;
+    private $titre;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $image;
+    
+    /**
+     * @ORM\OneToMany(targetEntity=Session::class, mappedBy="formation")
+     */
+    private $sessions;
 
     public function __construct()
     {
-        $this->inscriptions = new ArrayCollection();
+        $this->sessions = new ArrayCollection();
     }
 
-    /**
-     * @return string
-     */
-    public function getTitre(): string
+    public function getId(): ?int
     {
-        return $this->titre;
+        return $this->id;
     }
 
-    /**
-     * @param string $titre
-     */
-    public function setTitre(string $titre): void
-    {
-        $this->titre = $titre;
-    }
-
-    /**
-     * @return string
-     */
-    public function getPrix(): string
+    public function getPrix(): ?string
     {
         return $this->prix;
     }
 
-    /**
-     * @param string $prix
-     */
-    public function setPrix(string $prix): void
+    public function setPrix(string $prix): self
     {
         $this->prix = $prix;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDescription(): string
+     public function getImage(): ?string
+    {
+        return $this->image;
+    }
+
+    public function setImage(string $image): self
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
-    /**
-     * @param string $description
-     */
-    public function setDescription(string $description): void
+    public function setDescription(string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getTitre(): ?string
+    {
+        return $this->titre;
+    }
+
+    public function setTitre(string $titre): self
+    {
+        $this->titre = $titre;
+
+        return $this;
     }
 
     /**
-     * @return Collection|Inscription[]
+     * @return Collection|Session[]
      */
-    public function getInscriptions(): Collection
+    public function getSessions(): Collection
     {
-        return $this->inscriptions;
+        return $this->sessions;
     }
 
-    public function addInscription(Inscription $inscription): self
+    public function addSession(Session $session): self
     {
-        if (!$this->inscriptions->contains($inscription)) {
-            $this->inscriptions[] = $inscription;
-            $inscription->setFormation($this);
+        if (!$this->sessions->contains($session)) {
+            $this->sessions[] = $session;
+            $session->setFormation($this);
         }
 
         return $this;
     }
 
-    public function removeInscription(Inscription $inscription): self
+    public function removeSession(Session $session): self
     {
-        if ($this->inscriptions->removeElement($inscription)) {
+        if ($this->sessions->removeElement($session)) {
             // set the owning side to null (unless already changed)
-            if ($inscription->getFormation() === $this) {
-                $inscription->setFormation(null);
+            if ($session->getFormation() === $this) {
+                $session->setFormation(null);
             }
         }
 
         return $this;
     }
-
-
 }

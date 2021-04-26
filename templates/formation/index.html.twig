@@ -1,0 +1,111 @@
+{% extends 'admin_template/base.html.twig' %}
+
+{% block title %}Formation index{% endblock %}
+
+{% block body %}
+    <h1>Formation</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Titre</th>
+                <th>Description</th>
+
+                <th>Prix</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        <div class="header-content">
+            <div class="tz-search pull-right">
+
+                <!--Start form search-->
+                <form method="GET" action="{{ path('ajax_search') }}">
+                   
+                    <input  name="q" type="text" class="tz-query" id="tz-query" value="" placeholder="Rechercher">
+                </form>
+                <ul class="nav" id="side-menu">
+                    <li>
+                        <a href="#"><span class="fa arrow"></span></a>
+                        <ul class="nav nav-second-level" id="entitiesNav">
+                        </ul>
+                    </li>
+                </ul>
+
+                <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+                <script type="text/javascript">
+                    jQuery(document).ready(function() {
+                        var searchRequest = null;
+                        $("#tz-query").keyup(function() {
+                            var minlength = 1;
+                            var that = this;
+                            var value = $(this).val();
+                            var entitySelector = $("#entitiesNav").html('');
+                            if (value.length >= minlength ) {
+                             
+
+                                searchRequest = $.ajax({
+                                    type: "GET",
+                                    url: "http://localhost:8000/asearch?q="+value,
+                                    data: {
+                                    },
+                                    dataType: "text",
+                                    success: function(msg){
+                                        //we need to check if the value is the same
+                                        if (value===$(that).val()) {
+                                            var result = JSON.parse(msg);
+                                            $.each(result, function(key, arr) {
+                                                $.each(arr, function(id, value) {
+                                                    if (key === 'posts') {
+                                                        if (id !== 'error') {
+                                                            console.log(value);
+                                                            entitySelector.append('<li><a href="/formation/'+id+'"><b>'+value+'</a></li>');
+
+                                                        } else {
+                                                            entitySelector.append('<li class="errorLi">'+value+'</li></br>');
+                                                        }
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    });
+                </script>
+
+
+
+                <!--End Form search-->
+
+                <!--live search-->
+
+        <!--End class header content-->
+        </div>
+        {% for formation in formations %}
+            <tr>
+                            <td>{{ formation.id }}</td>
+
+                            <td>{{ formation.titre }}</td>
+                <td>{{ formation.description }}</td>
+
+                <td>{{ formation.prix }}</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('formation_show', {'id': formation.id}) }}">show</a>
+                    <a class="btn btn-info" href="{{ path('formation_edit', {'id': formation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('formation_new') }}">Create new</a>
+{% endblock %}
+

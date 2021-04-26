@@ -1,0 +1,39 @@
+{% extends 'admin_template/base.html.twig' %}
+
+{% block title %}Session index{% endblock %}
+
+{% block body %}
+
+    <h1>Session</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Formation</th>
+                <th>Date</th>
+                <th>Duree</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for session in sessions %}
+            <tr>
+                <td>{{ session.id }}</td>
+                <td>{{ session.titre }}</td>
+                <td>{{ session.date ? session.date|date('Y-m-d') : '' }}</td>
+                <td>{{ session.duree }} Jours</td>
+                <td>
+                    <a class="btn btn-info" href="{{ path('session_show', {'id': session.id}) }}">show</a>
+                    <a class="btn btn-info" href="{{ path('session_edit', {'id': session.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary" href="{{ path('session_new') }}">Create new</a>
+{% endblock %}

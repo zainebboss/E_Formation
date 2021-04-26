@@ -35,7 +35,7 @@
             "repo": "github.com/symfony/recipes",
             "branch": "master",
             "version": "2.3",
-            "ref": "6e0f582596a8f1c865aaa0d3cceb9bf0daf609b4"
+            "ref": "9777bf185961283a450b6237281132935025fe04"
         },
         "files": [
             "./config/packages/doctrine.yaml",
@@ -419,9 +419,6 @@
         "version": "v2.2.0"
     },
     "symfony/stopwatch": {
-        "version": "v4.4.20"
-    },
-    "symfony/templating": {
         "version": "v4.4.20"
     },
     "symfony/test-pack": {
