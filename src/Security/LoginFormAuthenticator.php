@@ -50,6 +50,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
+            'g-recaptcha-response'=>$request->request->get('g-recaptcha-response'),
         ];
         $request->getSession()->set(
             Security::LAST_USERNAME,
@@ -61,17 +62,32 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        $token = new CsrfToken('authenticate', $credentials['csrf_token']);
-        if (!$this->csrfTokenManager->isTokenValid($token)) {
-            throw new InvalidCsrfTokenException();
+        if ($credentials['g-recaptcha-response']) {
+            $g_response = $credentials['g-recaptcha-response'];
+            $resp = $this->verifyRecaptcha($g_response);
+            if (!$resp) {
+                throw new CustomUserMessageAuthenticationException('captcha invalide.');
+            }
+
+            $token = new CsrfToken('authenticate', $credentials['csrf_token']);
+            if (!$this->csrfTokenManager->isTokenValid($token)) {
+                throw new InvalidCsrfTokenException();
+            }
+            $user = $this->entityManager->getRepository(User::class)->findUserByEmail($credentials['email']);
+            if (!$user) {
+                // fail authentication with a custom error
+                throw new CustomUserMessageAuthenticationException('Email introuvable.');
+            }
+
+            return $user;
         }
-        $user = $this->entityManager->getRepository(User::class)->findUserByEmail($credentials['email']);
-        if (!$user) {
-            // fail authentication with a custom error
-            throw new CustomUserMessageAuthenticationException('Email introuvable.');
+        else {
+            throw new CustomUserMessageAuthenticationException('captcha invalide.');
         }
 
-        return $user;
+
+
+
     }
 
     public function checkCredentials($credentials, UserInterface $user)
@@ -107,5 +123,43 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     protected function getLoginUrl()
     {
         return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+    }
+    private function verifyRecaptcha($recaptchaResponse)
+    {
+
+        $data = array(
+            "secret"=>"6Lc5D-wUAAAAAPn39VRKsyHUhWt2XxTnlPvcnftv",
+            "response"=>$recaptchaResponse
+        );
+
+        $verify = curl_init();
+        curl_setopt($verify, CURLOPT_URL, "https://www.google.com/recaptcha/api/siteverify");
+        curl_setopt($verify, CURLOPT_POST, true);
+        curl_setopt($verify, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($verify, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($verify, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($verify);
+        $response=json_decode($response,true);
+        return !empty($response['success']);
+
+
+
+     /*   $url = "https://www.google.com/recaptcha/api/siteverify";
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HEADER, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, array(
+            "secret"=>"6Lc5D-wUAAAAAPn39VRKsyHUhWt2XxTnlPvcnftv",
+            "response"=>$recaptchaResponse
+            ));
+        $response = curl_exec($ch);
+        curl_close($ch);
+        // $data = json_decode($response);
+        $result = json_decode($response, true);
+
+        return !empty($result['success']);
+     */
     }
 }

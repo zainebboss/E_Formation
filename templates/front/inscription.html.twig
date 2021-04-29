@@ -44,9 +44,54 @@
                     </button>
                 </div>
                 {{ form_end(form) }}
-
+            <div class="container" style="padding: 20px">
+                <div  id="map" style="height: 500px; width:100%;">
+                </div>
+            </div>
         </div><!-- end container -->
     </div><!-- end section -->
 
 {% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDYhfYs2iY5PFut6nyg40SkRzC4iiJk98A&v=3.exp&sensor=false"></script>
+
+    <script>
+        var directionsDisplay;
+        var directionsService = new google.maps.DirectionsService();
+        var map;
+        function initialize() {
+            var locations = [
+                ["ESPRIT Ecole d'ingénieurs",36.8992004,10.1875152, 1],
+                ['ESPRIT - Cours du soir',36.8533064,10.2049992, 2],
+
+
+            ];
+            var map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 7,
+                center: new google.maps.LatLng(36.8533064,10.1875152),
+                mapTypeId: google.maps.MapTypeId.ROADMAP
+            });
+
+            var infowindow = new google.maps.InfoWindow();
+            var marker, i;
+            for (i = 0; i < locations.length; i++) {
+                marker = new google.maps.Marker({
+                    position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+                    map: map
+                });
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infowindow.setContent(locations[i][0]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+            }
+        }
+        $(document).ready(function(e) { initialize() });
+    </script>
+{% endblock %}

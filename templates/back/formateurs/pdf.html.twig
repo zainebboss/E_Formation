@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{{ 'Dashbord'|trans }}</title>
+    <style>
+        .page {
+            position: relative;
+            min-height: calc(100% - 44px);
+        }
+        .page-header {
+            position: relative;
+            padding: 10px;
+            margin-top: 0;
+            margin-bottom: 0;
+            background: 0 0;
+            border-bottom: 0;
+        }
+        .page-title {
+            margin-top: 0;
+            margin-bottom: 0;
+            font-size: 26px;
+            display: inline-block;
+            width: 50%;
+        }
+        .page-header-actions {
+            position: absolute;
+            top: 50%;
+            right: 30px;
+            margin: auto;
+            transform: translateY(-50%);
+        }
+        .page-header-actions>* {
+            margin-bottom: 0;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+            margin-right: -1.0715rem;
+            margin-left: -1.0715rem;
+        }
+        .col-lg-12 {
+            -ms-flex: 0 0 100%;
+            flex: 0 0 100%;
+            max-width: 100%;
+        }
+        .text-right {
+            text-align: right!important;
+        }
+        .text-center {
+            text-align: center!important;
+        }
+        .media-body {
+            overflow: hidden;
+            display: inline-block;
+            width: 50%;
+        }
+        .mt-0 {
+            margin-top: 0!important;
+            color: #f02138;
+            margin-bottom: 0px!important;
+        }
+        .small, small {
+            font-size: 80%;
+            font-weight: 300;
+        }
+        .page-content {
+            padding: 30px;
+        }
+        .panel-body{
+            padding-left: 0px !important;
+            padding-right: 0px !important;
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+        }
+        .table {
+            width: 100%;
+            max-width: 100%;
+            margin-bottom: 1.143rem;
+            background-color: transparent;
+            border-collapse: collapse;
+        }
+        .table tfoot th, .table thead th {
+            font-weight: 400;
+            color: #616161;
+            border-bottom-width: 1px;
+            text-transform: uppercase;
+            font-size: 11px;
+            font-weight: bold;
+        }
+        .table thead:first-child th {
+            border-top: none;
+        }
+        .table td, .table th {
+            padding: .572rem;
+            vertical-align: top;
+            border-top: 1px solid #e0e0e0;
+        }
+        tr {
+            display: table-row;
+            vertical-align: inherit;
+            border-color: inherit;
+        }
+        tbody {
+            display: table-row-group;
+            vertical-align: middle;
+            border-color: inherit;
+        }
+        .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(238,238,238,.3);
+        }
+    </style>
+</head>
+<body>
+<header class="clearfix">
+
+</header>
+<main>
+    <div class="page">
+        <div class="page-header">
+            <h1 class="page-title" > {{ 'Liste Formateurs'|trans }}</h1>
+            <div class="media-body text-right">
+                <h4 class="mt-0 " style="color: #f02138;margin-bottom: 0px!important;padding-right: 30px"> {{ items|length }}</h4>
+                <small style="">{{"formateur(s)" | trans }}</small>
+            </div>
+        </div>
+        <div class="page-content" style="padding-top: 100px "  id="content">
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body container-fluid"  style="padding-left: 0px !important;padding-right: 0px !important;padding-top: 0px !important;padding-bottom: 0px !important;">
+                    <div class="row row-lg">
+                        <div class="col-lg-12">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr class="">
+                                    <th class="text-center">Nom & Prénom</th>
+                                    <th class="text-center">Email</th>
+                                    <th class="text-center">Tél</th>
+                                    <th class="text-center">Adresse</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in items %}
+                                    <tr >
+                                        <td  class="text-center">
+                                            {{ item.nom }} {{ item.prenom }}
+                                        </td>
+                                        <td  class="text-center">
+                                            {{ item.email }}
+                                        </td>
+                                        <td  class="text-center">
+                                            {{ item.email }}
+                                        </td>
+                                        <td  class="text-center">
+                                            {{ item.adresse }}
+                                        </td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td style="padding-left: 20px"colspan="4">noRecordsFound</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <!-- End Panel -->
+        </div>
+
+
+    </div>
+</main>
+</body>
+</html>

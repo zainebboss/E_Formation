@@ -22,37 +22,39 @@ class ApprenantController extends AbstractController
     /**
      * @Route("/", name="apprenant_index", methods={"GET"})
      */
-    public function index(Request  $request): Response
+    public function index(Request $request): Response
     {
-        $search=$request->get('search','');
+        $search = $request->get('search', '');
         $users = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findUsersByRole($search,'ROLE_APPRENANT');
+            ->findUsersByRole($search, 'ROLE_APPRENANT');
 
         return $this->render('back/apprenant/index.html.twig', [
             'users' => $users,
-            'search'=>$search,
+            'search' => $search,
         ]);
     }
+
     /**
      * @Route("/table", name="apprenant_table", methods={"GET","POST"})
      */
     public function table(Request $request, EngineInterface $engine)
     {
-        $search=$request->get('search','');
+        $search = $request->get('search', '');
         $users = $this->getDoctrine()
             ->getRepository(User::class)
-            ->findUsersByRole($search,'ROLE_APPRENANT');
+            ->findUsersByRole($search, 'ROLE_APPRENANT');
         $response = new JsonResponse();
-        $html = $engine->render('back/apprenant/tab
-        le.html.twig', [
-            'users' => $users,
-        ]);
+        $html = $engine->render('back/apprenant/table.html.twig',
+            [
+                'users' => $users,
+            ]);
         return $response->setData(
             array(
                 'html' => $html,
             ));
     }
+
     private function getErrors($baseForm, $baseFormName)
     {
         $errors = array();
@@ -77,6 +79,7 @@ class ApprenantController extends AbstractController
         }
         return $errors;
     }
+
     /**
      * @Route("/new", name="apprenant_new", methods={"GET","POST"})
      */
@@ -108,10 +111,9 @@ class ApprenantController extends AbstractController
             'user' => $user,
             'form' => $form->createView(),
             'errors' => $this->getErrors($form, $form->getName()),
-             'new'=>true
+            'new' => true
         ]);
     }
-
 
 
     /**
@@ -130,7 +132,7 @@ class ApprenantController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            if($user->getPlainPassword()){
+            if ($user->getPlainPassword()) {
                 $user->setPassword($user->getPlainPassword());
             }
             $this->getDoctrine()->getManager()->flush();
@@ -151,9 +153,9 @@ class ApprenantController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($user);
-            $entityManager->flush();
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($user);
+        $entityManager->flush();
 
         return $this->redirectToRoute('apprenant_index');
     }
@@ -169,6 +171,7 @@ class ApprenantController extends AbstractController
 
         return $this->redirectToRoute('apprenant_index');
     }
+
     /**
      * @Route("/disable/{id}", name="apprenant_disable", methods={"GET"})
      */

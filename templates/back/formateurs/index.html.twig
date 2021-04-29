@@ -31,16 +31,30 @@
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body">
-                            <div class="row" >
+                            <form class="row" id="myform">
                                 <div class="col-6">
-                                    <input class="form-control" type="text" placeholder="rechercher"  name="search"  id="search" value="{{ search }}">
+                                    <input class="form-control" type="text" placeholder="rechercher" name="search"
+                                           id="search" value="{{ search }}">
                                 </div>
-                                <div class="offset-5 col-1">
-                                    <button type="button"  onclick="loadTable()" id="search"  class="btn btn-block btn-outline-success " style="display: inline">
+                                <div class="offset-3 col-1">
+                                    <button type="button" onclick="loadTable()" id="search"
+                                            class="btn btn-block btn-outline-success " style="display: inline">
                                         <i class="nav-icon fas fa-search btn-outline-success"></i>
                                     </button>
                                 </div>
-                            </div>
+                                <div class=" col-1">
+                                    <button type="button" id="export" class="btn btn-block btn-outline-success "
+                                            style="display: inline">
+                                        <i class="nav-icon fas fa-file-excel btn-outline-success"></i>
+                                    </button>
+                                </div>
+                                <div class=" col-1">
+                                    <button type="button" id="exportpdf" class="btn btn-block btn-outline-success "
+                                            style="display: inline">
+                                        <i class="nav-icon fas fa-file-pdf btn-outline-success"></i>
+                                    </button>
+                                </div>
+                            </form>
 
                         </div>
                         <div class="card-body" name="formateurs" id="formateurs">
@@ -59,11 +73,11 @@
     <!-- /.content-wrapper -->
 {% endblock %}
 {% block javascript %}
-    <script>
-        function loadTable() {
+<script>
+    function loadTable() {
 
-            var search=$("#search").val();
-            var url = '{{ path('formateurs_table') }}'; //get submit url [replace url here if desired]
+    var search=$("#search").val();
+    var url = '{{ path('formateurs_table') }}'; //get submit url [replace url here if desired]
             $.ajax({
                 type: "POST",
                 url: url,
@@ -73,6 +87,14 @@
                 }
             });
         }
+    $('#export').click(function(){
+          $('#myform').attr('action', "{{ path('formateurs_export') }}" );
+          document.getElementById("myform").submit();
+    });
+    $('#exportpdf').click(function(){
+          $('#myform').attr('action', "{{ path('formateurs_export_pdf') }}" );
+          document.getElementById("myform").submit();
+    });
         $( document ).ready(function() {
             loadTable();
         })
