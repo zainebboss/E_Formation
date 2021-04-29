@@ -1,0 +1,50 @@
+{% extends 'back.html.twig' %}
+
+{% block title %}Aide index{% endblock %}
+
+{% block content %}
+    <h1 class="container-fluid alert-info text-center p-5">Liste des problemes</h1>
+    <form  method="post" action="{{ path('recherche') }}"  class="container-fluid mt-4">
+        <div class="d-flex align-items-center justify-content-center">
+            <input type="text" name="search" class="tz-query form-control w-50"> <input type="submit" value="recherche" class="btn btn-warning">
+        </div>
+    </form>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Sujet</th>
+                <th>Probleme</th>
+                <th>Mail</th>
+                <th>commaintre</th>
+                <th>reponse</th>
+
+            </tr>
+        </thead>
+        <tbody>
+        {% for aide in aides %}
+            <tr>
+                <td>{{ aide.id }}</td>
+                <td>{{ aide.sujet }}</td>
+                <td>{{ aide.probleme }}</td>
+                <td>{{ aide.mail }}</td>
+                <td>  {% for aidecoms in aidecom %}
+                        {% if aidecoms.idSujet == aide.id %}
+                            <p>{{ aidecoms.commaintre}}</p>
+
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td style="width: 10%;"><a class="btn btn-warning" href="{{ path('aide_commaintre_new')}}"> reponse</a> </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+{% endblock %}

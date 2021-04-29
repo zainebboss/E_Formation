@@ -1,0 +1,42 @@
+{% extends 'base1.html.twig' %}
+
+{% block title %} aide {% endblock %}
+
+{% block content %}
+    <h1>Aide commaintre </h1>
+
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th>Commaintre</th>
+            <th>IdSujet</th>
+
+            <th>actions</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        {% for aidecom in aidecoms %}
+            <tr>
+
+                <td>{{ aidecom.commaintre }}</td>
+                <td>{{ aidecom.idSujet }}</td>
+
+                <td style="width: 10%;">
+                    <a class="btn btn-warning" href="{{ path('aide_commaintre_show', {'id': aidecom.id}) }}">show</a>
+                    <a class="btn btn-success" href="{{ path('aide_commaintre_edit', {'id': aidecom.id}) }}">edit</a>
+                </td>
+
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a style="width: 10%;" class="btn btn-success" href="{{ path('aide_commaintre_new') }}">Create new</a>
+
+{% endblock %}

@@ -1912,6 +1912,17 @@ hr.invis1 {
     transform: translateX(-50%);
     background: url("uploads/design.jpg") no-repeat;
 }
+.TH{
+    background: none;
+    border: none;
+    width: 20%;
+}
+
+.su{
+
+    width: 50%;
+}
+
 
 
 /*------------------------------------------------------------------
@@ -2477,7 +2488,7 @@ select.mobile-device {
     font-weight: 400;
     font-size: 20px;
     text-transform: capitalize;
-    line-height: !important;
+    line-height:1 !important;
 }
 
 .footer {
@@ -2766,7 +2777,7 @@ select.mobile-device {
     margin: 0;
     font-weight: 300;
     padding: 4px 0 0;
-    line-height: 1 !important:
+    line-height: 1 !important;
 }
 
 #preloader {
