@@ -4,7 +4,11 @@
 
 {% block content %}
     <h1>Liste des problemes</h1>
+    <form  method="post" action="{{ path('recherche') }}" >
 
+        <input type="text" name="search" class="in"> <input type="submit" value="recherche" class="re">
+
+    </form>
     <table class="table">
         <thead>
             <tr>
@@ -12,7 +16,9 @@
                 <th>Sujet</th>
                 <th>Probleme</th>
                 <th>Mail</th>
-                <th>actions</th>
+                <th>commaintre</th>
+                <th>reponse</th>
+
             </tr>
         </thead>
         <tbody>
@@ -22,10 +28,15 @@
                 <td>{{ aide.sujet }}</td>
                 <td>{{ aide.probleme }}</td>
                 <td>{{ aide.mail }}</td>
-                <td>
-                    <a href="{{ path('form_show', {'id': aide.id}) }}">show</a>
-                    <a href="{{ path('form_edit', {'id': aide.id}) }}">edit</a>
+                <td>  {% for aidecoms in aidecom %}
+                        {% if aidecoms.idSujet == aide.id %}
+                            <p>{{ aidecoms.commaintre}}</p>
+
+                        {% endif %}
+                    {% endfor %}
                 </td>
+                <td style="width: 10%;"><a class="btn btn-warning" href="{{ path('aide_commaintre_new')}}"> reponse</a> </td>
+
             </tr>
         {% else %}
             <tr>

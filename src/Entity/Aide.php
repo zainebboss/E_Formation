@@ -7,12 +7,13 @@ use PhpParser\Node\Scalar\String_;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use App\Repository\AideRepository;
-
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 /**
  * @ORM\Table(name="aide")
  * @ORM\Entity(repositoryClass=AideRepository::class)
  * @UniqueEntity(fields={"mail"},
  * message="le champs il faut etre unique ")
+ * @ParamConverter
  */
 class Aide
 {
@@ -22,12 +23,13 @@ class Aide
      * @ORM\Column(type="integer")
      */
     private $id;
+    protected $captchaCode;
 
     /**
      * @var string
      *
      * @ORM\Column(name="sujet", type="string", length=100, nullable=false)
-     * @Assert\Length(min="8",
+     * @Assert\Length(min="3",
      * max="100", minMessage="doit contenir au min {{ limit }}",
      * maxMessage="doit contenir au min {{ limit }}" )
      */
@@ -37,7 +39,7 @@ class Aide
      * @var string
      *
      * @ORM\Column(name="probleme", type="string", length=100, nullable=false)
-     * @Assert\Length(min="8",
+     * @Assert\Length(min="3",
      * max="100", minMessage="doit contenir au min {{ limit }}",
      * maxMessage="doit contenir au min {{ limit }}" )
      */
@@ -107,6 +109,16 @@ class Aide
     public function setMail(string $mail): void
     {
         $this->mail = $mail;
+    }
+
+    public function getCaptchaCode()
+    {
+        return $this->captchaCode;
+    }
+
+    public function setCaptchaCode($captchaCode)
+    {
+        $this->captchaCode = $captchaCode;
     }
 
     /**

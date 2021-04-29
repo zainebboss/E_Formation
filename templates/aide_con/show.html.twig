@@ -1,4 +1,4 @@
-{% extends 'back.html.twig' %}
+{% extends 'base.html.twig' %}
 
 
 {% block title %}Aide{% endblock %}
@@ -14,7 +14,7 @@
         </tr>
         <tr>
             <th>Sujet</th>
-            <td>{{ aide.sujet }}</td>p
+            <td>{{ aide.sujet }}</td>
         </tr>
         <tr>
             <th>Probleme</th>
@@ -24,10 +24,17 @@
             <th>Mail</th>
             <td>{{ aide.mail }}</td>
         </tr>
+        <tr>
+            <th>commaintre</th>
+            <td>
+                {{ aidecom.commaintre }}
+            </td>
+        </tr>
         </tbody>
     </table>
+<a href="{{ path('impp', {'id': aide.id}) }}" class="btn btn-primary"> imprimer </a></br>
 
-    <a href="{{ path('aide_con_index') }}">back to list</a>
+    <a href="{{ path('aide_con_index') }}">back to list</a></br>
 
     <a href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
 

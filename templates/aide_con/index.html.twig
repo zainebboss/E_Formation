@@ -4,15 +4,77 @@
 
 {% block content %}
 
-    <h1 class="h">Espace Aide</h1>
-    <form  method="post" action="{{ path('recherche') }}" >
 
-        <input type="text" name="search" class="in"> <input type="submit" value="recherche" class="re">
+
+    <h1 class="container-fluid alert-info text-center p-5">Espace Aide</h1>
+    <form  method="GET" action="{{ path('ajax_search') }}" class="container-fluid mt-4">
+
+        <div class="d-flex align-items-center justify-content-center">
+            <input  name="q" type="text" class="tz-query form-control w-50" id="tz-query" value="" placeholder="Rechercher">
+        </div>
+
 
     </form>
+    <ul class="nav" id="side-menu">
+        <li>
+            <a href="#"><span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level" id="entitiesNav">
+            </ul>
+        </li>
+    </ul>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#tz-query").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#entitiesNav").html('');
+                if (value.length >= minlength ) {
+
+
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "http://localhost:8000/aide/asearch?q="+value,
+                        data: {
+                        },
+                        dataType: "jsonp",
+                        success: function(msg){
+                            //we need to check if the value is the same
+                            if (value===$(that).val()) {
+                                var result = JSON.parse(msg);
+                                $.each(result, function(key, arr) {
+                                    $.each(arr, function(id, value) {
+                                        if (key === 'posts') {
+                                            if (id !== 'error') {
+                                                console.log(value);
+                                                entitySelector.append('<li><a href="/aide/'+id+'"><b>'+value+'</a></li>');
+
+                                            } else {
+                                                entitySelector.append('<li class="errorLi">'+value+'</li></br>');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
     </br>
-    <table class="table">
-        <thead>
+
+    {% for message in app.flashes('succes') %}
+        <div class="alert alert-success">
+        {{ message }}</div>
+    {% endfor %}
+    <div class="container-fluid">
+        <table class="table  table-hover ">
+            <thead>
             <tr>
 
                 <th>Sujet</th>
@@ -20,48 +82,55 @@
                 <th>Mail</th>
                 <th>commaintre</th>
                 <th>avis</th>
+                <th>reponse</th>
                 <th>Action</th>
             </tr>
-        </thead>
-        <tbody>
+            </thead>
+            <tbody>
 
-        {% for aide in aides %}
-           <tr>
+            {% for aide in aides %}
+                <tr>
 
-                <td>{{ aide.sujet }}</td>
-                <td>{{ aide.probleme }}</td>
-                <td>{{ aide.mail }}</td>
+                    <td>{{ aide.sujet }}</td>
+                    <td>{{ aide.probleme }}</td>
+                    <td>{{ aide.mail }}</td>
 
-             <td>  {% for aidecoms in aidecom %}
-               {% if aidecoms.idSujet == aide.id %}
-                   <p>{{ aidecoms.commaintre}}</p>
-               {% endif %}
-               {% endfor %} </td>
-               <td>
-                   <button id="likedbtn" >
-                       <i class="fa fa-thumbs-up"></i>
-                   </button>
-                   <input type="number" id="input1" value="0" name=""  class="TH" >
-                   <button id="dislikedbtn">
-                       <i class="fa fa-thumbs-down"></i>
-                   </button>
-                   <input type="number" id="input2" value="0" name="" class="TH" >
+                    <td>  {% for aidecoms in aidecom %}
+                            {% if aidecoms.idSujet == aide.id %}
+                                <p>{{ aidecoms.commaintre}}</p>
+
+                            {% endif %}
+                        {% endfor %}
+                    </td>
+                    <td style="width: 20%;">
+                        <button id="likedbtn" >
+                            <i class="fa fa-thumbs-up"></i>
+                        </button>
+                        <input type="number" id="input1" value="0" name=""  class="TH">
+                        <button id="dislikedbtn">
+                            <i class="fa fa-thumbs-down"></i>
+                        </button>
+                        <input type="number" id="input2" value="0" name="" class="TH">
 
 
-               </td>
-                <td>
-                    <a  class="btn" href="{{ path('aide_con_show', {'id': aide.id}) }} ">show</a>
-                    <a class="btn" href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
+                    </td>
+                    <td style="width: 10%;"><a class="btn btn-warning" href="{{ path('aide_commaintre_new')}}"> reponse</a> </td>
+                    <td style="width: 10%;">
+                        <a  class="btn btn-primary" href="{{ path('aide_con_show', {'id': aide.id}) }} ">show</a>
+                        <a class="btn btn-success" href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
 
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
 
 
     <a href="{{ path('aide_con_new') }}">Create new</a>
@@ -123,27 +192,26 @@
     </footer><!-- end footer -->
 {% endblock %}
 {% block javascript %}
-
 <script type="text/javascript">
 
-let likedbtn =document.querySelector('#likedbtn');
-let dislikedbtn =document.querySelector('#dislikedbtn');
-let input1 =document.querySelector('#input1');
-let input2 =document.querySelector('#input2');
+    let likedbtn =document.querySelector('#likedbtn');
+    let dislikedbtn =document.querySelector('#dislikedbtn');
+    let input1 =document.querySelector('#input1');
+    let input2 =document.querySelector('#input2');
 
-likedbtn.addEventListener('click',()=>{
-input1.value =parseInt(input1.value)+1;
-input1.style.color ="#0000FF"
+
+    likedbtn.addEventListener('click',()=>{
+    input1.value =parseInt(input1.value)+1;
+    input1.style.color ="#0000FF"
 
 
 })
-dislikedbtn.addEventListener('click',()=>{
-input2.value =parseInt(input2.value)+1;
-input2.style.color ="#008000"
+    dislikedbtn.addEventListener('click',()=>{
+    input2.value =parseInt(input2.value)+1;
+    input2.style.color ="#008000"
 
 
 })
 
 </script>
-
 {% endblock %}

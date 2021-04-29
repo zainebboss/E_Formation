@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Aide;
+use App\Entity\Aidecom;
 use App\Form\AideType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\AideRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,9 +25,14 @@ class FormController extends AbstractController
             ->getRepository(Aide::class)
             ->findAll();
 
+        $aidecom = $this->getDoctrine()
+            ->getRepository(Aidecom::class)
+            ->findAll();
+
 
         return $this->render('form/index.html.twig', [
             'aides' => $aides,
+            'aidecom'=>$aidecom,
         ]);
     }
 
@@ -96,4 +103,23 @@ class FormController extends AbstractController
 
         return $this->redirectToRoute('form_index');
     }
+
+    /**
+     * @Route ("form/recherche",name="recherche")
+     */
+    public function recherche  (AideRepository $repository,Request $request){
+
+        $data=$request->get('search');
+
+        $aide=$repository->findBy(['sujet'=>$data]);
+        $aides =$aide;
+        $aidecom = $this->getDoctrine()
+            ->getRepository(Aidecom::class)
+            ->findAll();
+        return $this->render('form/index.html.twig', [
+            'aides' => $aides,
+            'aidecom'=>$aidecom,
+        ]);
+    }
+
 }

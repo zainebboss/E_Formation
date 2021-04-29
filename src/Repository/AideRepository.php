@@ -18,14 +18,19 @@ class AideRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Aide::class);
     }
-    public function findrdvByname($aide)
-    {
-        return $this->createQueryBuilder('r')
-            ->where('r.sujet Like :Nom')
-            ->setParameter('Nom', '%'.$aide.'%')
+    /**
+     * @param $nom
+     * @return mixed
+     */
+    public function findByNom($nom){
+        return $this->createQueryBuilder('p')
+            ->select('p.id,p.sujet')
+            ->andWhere('p.sujet like :val')
+            ->setParameter('val','%'.$nom.'%')
+            ->orderBy('p.id' , 'ASC')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
+
     }
 
     // /**

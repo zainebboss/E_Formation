@@ -1,38 +1,20 @@
-z{% extends 'back.html.twig' %}
 
-
-{% block title %}Aide{% endblock %}
 
 {% block content %}
-    <h1>Aide</h1>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title of the PDF</title>
+</head>
+<body>
 
-    <table class="table">
-        <tbody>
-        <tr>
-            <th>Id</th>
-            <td>{{ aide.id }}</td>
-        </tr>
-        <tr>
-            <th>Sujet</th>
-            <td>{{ aide.sujet }}</td>p
-        </tr>
-        <tr>
-            <th>Probleme</th>
-            <td>{{ aide.probleme }}</td>
-        </tr>
-        <tr>
-            <th>Mail</th>
-            <td>{{ aide.mail }}</td>
-        </tr>
-        </tbody>
-    </table>
+<h4>{{ aides.sujet }}</h4>
+<h4>{{ aides.probleme }}</h4>
+<h4>{{ aides.mail }}</h4>
+<h4>{{ aidescom.commaintre }}</h4>
+<p>Lorem Ipsum</p>
 
-    <a href="{{ path('aide_con_index') }}">back to list</a>
-
-    <a href="{{ path('aide_con_edit', {'id': aide.id}) }}">edit</a>
-
-    {{ include('aide_con/_delete_form.html.twig') }}
-{% endblock %}
-{% block footer %}
+</body>
+</html>
 
 {% endblock %}

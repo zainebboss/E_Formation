@@ -310,16 +310,14 @@ a img.aligncenter {
 }
 .su{
 
-
     width: 50%;
-
 }
 .pr{
-
-
     width: 50%;
     height: 100% ;
-
+}
+.ref{
+    width: 20%;
 }
 .h{
 
@@ -344,9 +342,7 @@ input{
 .col-lg-6{
     background: none;
 }
-.btn{
- background: #0f6674;
-}
+
 .loader-container:before {
   content: '';
   position: absolute;
