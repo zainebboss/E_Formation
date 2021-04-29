@@ -88,6 +88,9 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.3"
     },
+    "guzzlehttp/psr7": {
+        "version": "1.8.2"
+    },
     "laminas/laminas-code": {
         "version": "3.4.1"
     },

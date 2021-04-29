@@ -98,7 +98,19 @@ class ShowController extends AbstractController
             $Inscription->setDateInscrit($date);
             $em->persist($Inscription);
             $em->flush();
+
+        $basic  = new \Nexmo\Client\Credentials\Basic('fcb45a8f', 'wxETkucp0f7kHnqj');
+        $client = new \Nexmo\Client($basic);
+
+        $message = $client->message()->send([
+            'to' => '21624167170',
+            'from' => 'eFormation',
+            'text' => 'Bonjour Madame/Monsieur, Votre inscription à été bien effectué'
+        ]);
+
            return $this->redirectToRoute('index');
 
+
     }
+
 }
