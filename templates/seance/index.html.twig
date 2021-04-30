@@ -1,13 +1,19 @@
 {% extends 'base.html.twig' %}
 
+
+
 {% block title %}Seance index{% endblock %}
 
 {% block body %}
+
     <h1>Seance index</h1>
     <form method="post" action="{{ path('recherche') }}">
         <label>Recherche</label>
-        <input type="text" name="search"><input type="submit"value="Recherche">
-    </form>
+        <input id="myInput" type="text" placeholder="Search..">
+
+
+
+         </form>
 
 
     <table class="table">
@@ -21,8 +27,10 @@
                 <th>actions</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="myTable">
+
         {% for seance in seances %}
+
             <tr>
 
                 <td>{{ seance.idFormation }}</td>
@@ -33,6 +41,7 @@
                     <a href="{{ path('seance_show', {'idSeance': seance.idSeance}) }}">show</a>
                     <a href="{{ path('seance_edit', {'idSeance': seance.idSeance}) }}">edit</a>
                 </td>
+
             </tr>
         {% else %}
             <tr>
@@ -43,4 +52,5 @@
     </table>
 
     <a href="{{ path('seance_new') }}">Create new</a>
+    {{ knp_pagination_render(seances) }}
 {% endblock %}
